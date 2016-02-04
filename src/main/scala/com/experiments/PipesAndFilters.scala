@@ -1,4 +1,4 @@
-package com.experiments.pipesAndFilters
+package com.experiments
 
 import akka.actor.{Actor, ActorRef}
 

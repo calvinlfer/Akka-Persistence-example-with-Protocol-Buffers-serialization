@@ -1,4 +1,4 @@
-package com.experiments.pipesAndFilters
+package com.experiments
 
 import akka.actor.{ActorSystem, Props}
 import akka.testkit.{TestKit, TestProbe}
@@ -8,7 +8,7 @@ import scala.concurrent.duration._
 import scala.language.postfixOps
 
 
-class PipesAndFiltersTest
+class PipesAndFiltersSpec
   extends TestKit(ActorSystem("pipes-and-filters-test-system"))
     with WordSpecLike
     with BeforeAndAfterAll {
