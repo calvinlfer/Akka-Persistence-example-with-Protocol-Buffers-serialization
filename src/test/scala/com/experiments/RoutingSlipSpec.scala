@@ -20,7 +20,7 @@ class RoutingSlipSpec
     val router = system.actorOf(Props(new SlipRouter(interestedParty.ref)))
     import CarOption._
 
-    "order a car that is painted black with no other options" in {  // test
+    "order a car that is painted black with no other options" in { // test
       val blackCarOrder = Order(Seq(ColorBlack))
 
       // send message to the dynamic slip router
@@ -29,7 +29,7 @@ class RoutingSlipSpec
       interestedParty.expectMsg(Car(color = "black"))
     }
 
-    "order a car that is painted gray and is fully loaded" in {  // test
+    "order a car that is painted gray and is fully loaded" in { // test
       val fullyLoadedCar = Order(Seq(ColorGray, Navigation, ParkingSensors))
 
       // send message to the dynamic slip router
@@ -38,7 +38,7 @@ class RoutingSlipSpec
       interestedParty expectMsg Car(color = "gray", hasNavigation = true, hasParkingSensors = true)
     }
 
-    "order a car that is painted black and has parking sensors" in {  // test
+    "order a car that is painted black and has parking sensors" in { // test
       val blackCarWithParkingSensors = Order(Seq(ColorBlack, ParkingSensors))
 
       // send message to the dynamic slip router
