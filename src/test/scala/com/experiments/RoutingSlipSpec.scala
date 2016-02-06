@@ -25,25 +25,18 @@ class RoutingSlipSpec
 
       // send message to the dynamic slip router
       router ! blackCarOrder
-
       interestedParty.expectMsg(Car(color = "black"))
     }
 
     "order a car that is painted gray and is fully loaded" in { // test
       val fullyLoadedCar = Order(Seq(ColorGray, Navigation, ParkingSensors))
-
-      // send message to the dynamic slip router
       router ! fullyLoadedCar
-
       interestedParty expectMsg Car(color = "gray", hasNavigation = true, hasParkingSensors = true)
     }
 
     "order a car that is painted black and has parking sensors" in { // test
       val blackCarWithParkingSensors = Order(Seq(ColorBlack, ParkingSensors))
-
-      // send message to the dynamic slip router
       router ! blackCarWithParkingSensors
-
       interestedParty expectMsg Car(color = "black", hasNavigation = false, hasParkingSensors = true)
     }
   }
