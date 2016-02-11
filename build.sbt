@@ -1,4 +1,4 @@
-name := "AkkaIntegrationPatterns"
+name := "akka-fsms"
 
 version := "1.0"
 
