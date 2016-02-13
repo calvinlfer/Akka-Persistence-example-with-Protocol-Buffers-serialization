@@ -1,7 +1,10 @@
 package com.experiments
 
 import akka.actor.{ActorRef, ActorLogging, Actor, FSM}
+import scala.concurrent.duration._
 import com.experiments.models.Models._
+
+import scala.language.postfixOps
 
 /**
   * This is an Actor FSM
@@ -49,7 +52,8 @@ class Inventory(bookPublisher: ActorRef) extends Actor with FSM[FsmState, StateD
   }
 
   // Declare the transitions for FSM state WaitForPublisher
-  when(WaitForPublisher) {
+  // Send a StateTimeout message if the FSM is in this state for more than 5 seconds
+  when(WaitForPublisher, stateTimeout = 5 seconds) {
     case Event(supply:BookSupply, data:StateData) =>
       log.info("Received a BookSupply event in state {} where StateDate: {}", stateName, stateData)
       goto(ProcessRequest) using data.copy(nrOfBooksInStore = supply.nrBooks)
@@ -57,6 +61,13 @@ class Inventory(bookPublisher: ActorRef) extends Actor with FSM[FsmState, StateD
     case Event(BookSupplySoldOut, _) =>
       log.info("Received a BookSupplySoldOut event in state {} where StateDate: {}", stateName, stateData)
       goto(ProcessSoldOut)
+
+    // Transition back to WaitForRequests FSM state, the entry action for entering into WaitForRequests
+    // will send itself a PendingRequests event which will cause the inventory FSM to see if it has any pending
+    // requests, this way, we can retry sending a request to the Publisher if something went wrong with the Publisher
+    case Event(StateTimeout, _) =>
+      log.info("Received a StateTimeout event in state {} where StateDate: {}", stateName, stateData)
+      goto(WaitForRequests)
   }
 
   // Declare the transitions for FSM state ProcessRequest
