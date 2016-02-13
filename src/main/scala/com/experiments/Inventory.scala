@@ -1,6 +1,6 @@
 package com.experiments
 
-import akka.actor.{ActorLogging, Actor, FSM}
+import akka.actor.{ActorRef, ActorLogging, Actor, FSM}
 import com.experiments.models.Models._
 
 /**
@@ -12,7 +12,9 @@ import com.experiments.models.Models._
   * is shown in the whenUnhandled block which is triggered when BookRequests are sent in busy states or
   * states where the request cannot be processed right away
   */
-class Inventory extends Actor with FSM[FsmState, StateData] with ActorLogging {
+class Inventory(bookPublisher: ActorRef) extends Actor with FSM[FsmState, StateData] with ActorLogging {
+  var reserveId = 0
+
   // Define the initial state of our FSM
   // initialize our StateData to have no books in the store and 0 pending state requests
   startWith(WaitForRequests, StateData(0, Seq[BookRequest]()))
@@ -99,4 +101,44 @@ class Inventory extends Actor with FSM[FsmState, StateData] with ActorLogging {
       log.info("Received an unhandled request {} in state {} where StateData: {}", event, stateName, stateData)
       stay()
   }
+
+  // All code above this deals with state transitions
+  // The code below this deals with entry actions
+  onTransition {
+    // Any State to WaitForRequests
+    case _ -> WaitForRequests =>
+      if (nextStateData.pendingRequests.nonEmpty) {
+        // go to the next state
+        self ! PendingRequests
+      }
+    case _ -> WaitForPublisher =>
+      // Send the Book's publisher a request for more books
+      bookPublisher ! PublisherRequest
+
+    case _ -> ProcessRequest =>
+      // Process the first request from the queue
+      // note that nextStateData refers to the StateData in the ProcessRequest state
+      val request = nextStateData.pendingRequests.head
+      // Reserve a book and send the reservation Id back to the requester actor
+      reserveId += 1
+      request.target ! BookReply(request.context, Right(reserveId))
+      // Note that the state transition logic defined above takes care of actually decrementing the quantity of books
+      // we have in the store (StateData's nrOfBooksInStore)
+
+      // Send the ProcessRequest FSM state a Done Event to tell it to transition into the WaitForRequest FSM state next
+      self ! Done
+
+    case _ -> ProcessSoldOut =>
+      // Tell the requester actors that we have no more books left
+      nextStateData.pendingRequests.foreach{
+        requestor =>
+          requestor.target ! BookReply(requestor.context, Left("Sold Out"))
+      }
+      // Note that the state transition logic defined above takes care of actually removing all pending requests
+
+      self ! Done
+  }
+
+  // Needed to start the FSM
+  initialize()
 }

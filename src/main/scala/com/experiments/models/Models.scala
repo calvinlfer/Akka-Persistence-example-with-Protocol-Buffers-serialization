@@ -28,6 +28,11 @@ object Models {
 
   case object PendingRequests
 
+  //responses
+  case object PublisherRequest
+
+  case class BookReply(context: AnyRef, reserveId: Either[String, Int])
+
   // This is the data that we use when we need a state condition to decide which transition is fired,
   // so it contains all the pending requests and the number of books in store.
   case class StateData(nrOfBooksInStore: Int, pendingRequests: Seq[BookRequest])
