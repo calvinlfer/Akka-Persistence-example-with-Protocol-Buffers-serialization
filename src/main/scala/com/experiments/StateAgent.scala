@@ -21,6 +21,7 @@ object StateAgent {
 
   /**
     * Class that encapsulates the agent along with the setter and getter API which talks to the agent
+    * An Akka agent is used to encapsulate the access to shared state between actors in a non locking fashion
     *
     * @param system we use the actor system's dispatcher for the execution context
     */
