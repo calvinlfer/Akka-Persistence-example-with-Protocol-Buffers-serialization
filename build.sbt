@@ -9,6 +9,7 @@ libraryDependencies ++= {
   val sprayVersion      = "1.3.3"
   Seq(
     "com.typesafe.akka"       %% "akka-actor"       % akkaVersion,
+    "com.typesafe.akka"       %%  "akka-agent"      % akkaVersion,
     "com.typesafe.akka"       %% "akka-testkit"     % akkaVersion   % "test",
     "com.typesafe.akka"       %% "akka-slf4j"       % akkaVersion,
     "ch.qos.logback"          %  "logback-classic"  % "1.1.3",
