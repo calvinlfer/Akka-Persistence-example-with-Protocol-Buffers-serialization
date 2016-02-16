@@ -1,7 +1,8 @@
-package com.experiments
+package com.experiments.calculator
 
 import akka.actor.ActorLogging
 import akka.persistence.{PersistentActor, RecoveryCompleted}
+import com.experiments.calculator.models.Models._
 
 /**
   * The persistent event-sourced calculator actor
@@ -9,8 +10,6 @@ import akka.persistence.{PersistentActor, RecoveryCompleted}
   * to events and persists them before dealing with them
   */
 class Calculator extends PersistentActor with ActorLogging {
-
-  import models.Models._
 
   // Persistence ID must be unique for persistent actors as Akka Persistence uses this ID to recover state
   override def persistenceId: String = "calculator-persistent-actor"

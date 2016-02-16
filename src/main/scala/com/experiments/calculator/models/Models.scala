@@ -1,4 +1,4 @@
-package com.experiments.models
+package com.experiments.calculator.models
 
 object Models {
 

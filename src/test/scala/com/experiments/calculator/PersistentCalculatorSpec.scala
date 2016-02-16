@@ -1,6 +1,7 @@
-package com.experiments
+package com.experiments.calculator
 
-import akka.actor.{Props, ActorSystem}
+import akka.actor.{ActorSystem, Props}
+import com.experiments.PersistenceSpec
 import org.scalatest.{BeforeAndAfterAll, WordSpecLike}
 
 /**
@@ -11,7 +12,7 @@ class PersistentCalculatorSpec extends PersistenceSpec(ActorSystem("actor-test-s
   with WordSpecLike
   with BeforeAndAfterAll {
   "The Calculator" should {
-    import models.Models._
+    import com.experiments.calculator.models.Models._
     "recover last known result after crash" in {
       val calc = system.actorOf(Props[Calculator], "test-calculator")
       calc ! Add(1)
