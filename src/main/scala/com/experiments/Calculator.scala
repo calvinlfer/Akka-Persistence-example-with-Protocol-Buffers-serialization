@@ -12,7 +12,7 @@ class Calculator extends PersistentActor with ActorLogging {
 
   import models.Models._
 
-  // Persistence ID must be unique for persistent actors
+  // Persistence ID must be unique for persistent actors as Akka Persistence uses this ID to recover state
   override def persistenceId: String = "calculator-persistent-actor"
 
   // Internal state of the actor

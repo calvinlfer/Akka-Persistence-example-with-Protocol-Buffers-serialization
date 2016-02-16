@@ -23,6 +23,7 @@ libraryDependencies ++= {
     // http://doc.akka.io/docs/akka/2.4.1/scala/persistence.html#Local_LevelDB_journal
     "org.iq80.leveldb"            % "leveldb"          % "0.7",
     "org.fusesource.leveldbjni"   % "leveldbjni-all"   % "1.8",
+    "commons-io"                  % "commons-io"       % "2.4",
     "ch.qos.logback"              %  "logback-classic"  % "1.1.3",
     "org.scalatest"               %% "scalatest"        % "2.2.6"       % "test"
   )
