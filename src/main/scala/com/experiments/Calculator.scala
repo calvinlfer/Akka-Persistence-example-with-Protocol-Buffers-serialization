@@ -1,7 +1,7 @@
 package com.experiments
 
 import akka.actor.ActorLogging
-import akka.persistence.{RecoveryCompleted, PersistentActor}
+import akka.persistence.{PersistentActor, RecoveryCompleted}
 
 /**
   * The persistent event-sourced calculator actor
@@ -9,6 +9,7 @@ import akka.persistence.{RecoveryCompleted, PersistentActor}
   * to events and persists them before dealing with them
   */
 class Calculator extends PersistentActor with ActorLogging {
+
   import models.Models._
 
   // Persistence ID must be unique for persistent actors
@@ -48,10 +49,18 @@ class Calculator extends PersistentActor with ActorLogging {
       persist(event)(updateState)
 
     case Subtract(value) => persist(Subtracted(value))(updateState)
-    case Divide(value) => persist(Divided(value))(updateState)
+
+    // We see validation in the case of division
+    case Divide(value) =>
+      if (value > 0) persist(Divided(value))(updateState)
+      else log.error("Cannot divide by 0, Ignoring command")
+
     case Multiply(value) => persist(Multiplied(value))(updateState)
+
     case PrintResult => println(s"the result is: ${state.result}")
+
     case GetResult => sender() ! state.result
+
     case Clear => persist(Reset)(updateState)
   }
 
