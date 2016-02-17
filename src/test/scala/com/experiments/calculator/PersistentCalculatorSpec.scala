@@ -8,7 +8,7 @@ import org.scalatest.{BeforeAndAfterAll, WordSpecLike}
   * Note that we use the PersistenceSpec we defined instead of the usual TestKit which takes care of cleaning up the
   * left over files from previous tests
   */
-class PersistentCalculatorSpec extends PersistenceSpec(ActorSystem("actor-test-system"))
+class PersistentCalculatorSpec extends PersistenceSpec(ActorSystem("calculator-actor-test-system"))
   with WordSpecLike
   with BeforeAndAfterAll {
   "The Calculator" should {

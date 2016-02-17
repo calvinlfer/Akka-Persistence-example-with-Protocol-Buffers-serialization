@@ -12,15 +12,21 @@ object BasketModels {
   case class UpdateItem(productId: String, amount: Int, shopperId: Long) extends Command
   case class Clear(shopperId: Long) extends Command
   case class Replace(items: Items, shopperId: Long) extends Command
+
+  // Commands that do not generate events
   case class GetItems(shopperId: Long) extends Command
+  case class CountRecoveredEvents(shopperId: Long) extends Command
 
   // Events: I have done this action (not harmful)
   sealed trait Event extends Serializable
   case class Added(item: Item) extends Event
   case class ItemRemoved(productId: String) extends Event
   case class ItemUpdated(productId: String, amount: Int) extends Event
-  case class Cleared(clearedItems: Items) extends Event
   case class Replaced(items: Items) extends Event
+  case object Cleared extends Event
+
+  // Responses for statistical information
+  case class RecoveredEventsCount(count: Int)
 
   // container for snapshots
   case class BasketSnapshot(items: Items)
