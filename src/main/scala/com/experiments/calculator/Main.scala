@@ -18,7 +18,7 @@ object Main extends App {
   persistentCalculatorActor ! Multiply(2)
   persistentCalculatorActor ! PrintResult
 
-  // Wait for 5 seconds before terminating
-  Thread sleep 5000
+  // Wait for 1 second before terminating
+  Thread sleep 1000
   system terminate
 }
