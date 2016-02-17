@@ -72,6 +72,5 @@ object BasketModels {
     }
 
     def add(newItems: Items): Items = newItems.listOfItems.foldLeft(this) {(acc, next) => acc.add(next)}
-
   }
 }

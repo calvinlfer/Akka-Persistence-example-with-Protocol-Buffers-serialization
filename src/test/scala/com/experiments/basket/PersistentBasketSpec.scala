@@ -46,6 +46,8 @@ class PersistentBasketSpec extends PersistenceSpec(ActorSystem("basket-actor-tes
       basketResurrected ! GetItems(shopperId)
       expectMsg(Items(List(dWave, displays)))
 
+      // Only 2 events (that need to be persisted to the event journal) are present after the snapshot
+      // This is because Akka will start from the latest snapshot and read events after that snapshot
       basketResurrected ! CountRecoveredEvents(shopperId)
       expectMsg(RecoveredEventsCount(2))
 

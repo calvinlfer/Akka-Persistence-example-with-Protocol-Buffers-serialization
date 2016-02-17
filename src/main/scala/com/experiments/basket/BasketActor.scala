@@ -67,6 +67,8 @@ class BasketActor extends PersistentActor with ActorLogging {
 
     case Replace(items, _) => persist(Replaced(items))(updateState)
 
+    // Save snapshot on basket clear
+    // saveSnapshot will cause SaveSnapshotFailure or SaveSnapshotSuccess messages to be sent to the current actor
     case Clear(_) => persist(Cleared) {
       clearedEvent =>
         updateState(clearedEvent)
