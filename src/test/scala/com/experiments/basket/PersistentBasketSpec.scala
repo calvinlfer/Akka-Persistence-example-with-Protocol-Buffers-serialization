@@ -32,7 +32,7 @@ class PersistentBasketSpec extends PersistenceSpec(ActorSystem("basket-actor-tes
       expectMsg(Some(ItemRemoved(macPro.productId)))
 
       basket ! Clear(shopperId)
-      // at this point, the snapshot is created so when recovering, snapshot information should be replayed
+      // at this point, the latest snapshot is created so when recovering, snapshot information should be replayed
       // from here along with events that take place below
       basket ! AddItem(dWave, shopperId)
       basket ! AddItem(displays, shopperId)
