@@ -1,7 +1,7 @@
 package com.experiments.basket
 
 import akka.actor.ActorLogging
-import akka.persistence.{SaveSnapshotSuccess, SaveSnapshotFailure, SnapshotOffer, PersistentActor}
+import akka.persistence._
 
 /**
   * This is a persistent actor responsible for holding a shopping cart basket
@@ -22,7 +22,7 @@ class BasketActor extends PersistentActor with ActorLogging {
     case ItemRemoved(productId) => itemsInBasket = itemsInBasket.removeItem(productId)
     case ItemUpdated(id, amount) => itemsInBasket = itemsInBasket.updateItem(id, amount)
     case Replaced(newItems) => itemsInBasket = newItems
-    case Cleared => itemsInBasket = itemsInBasket.clear
+    case Cleared() => itemsInBasket = itemsInBasket.clear
   }
 
   // Events come here (recovery phase) from database (snapshot and event)
@@ -40,6 +40,10 @@ class BasketActor extends PersistentActor with ActorLogging {
       log.info(s"Metadata: $metadata")
       log.info(s"Snapshot Data: $basketSnapshot")
       itemsInBasket = basketSnapshot.items
+
+    case RecoveryCompleted =>
+      log.info(s"Recovery complete for persistence ID: $persistenceId")
+
   }
 
   // Commands come here (active phase)
@@ -69,13 +73,18 @@ class BasketActor extends PersistentActor with ActorLogging {
 
     // Save snapshot on basket clear
     // saveSnapshot will cause SaveSnapshotFailure or SaveSnapshotSuccess messages to be sent to the current actor
-    case Clear(_) => persist(Cleared) {
+    case Clear(_) => persist(Cleared()) {
       clearedEvent =>
         updateState(clearedEvent)
+        log.info("Clear event issued: Saving Snapshot")
         saveSnapshot(BasketSnapshot(itemsInBasket))
     }
 
     case GetItems(_) => sender() ! itemsInBasket
+
+    case PrintItems(_) =>
+      log.info("Items in Basket:")
+      log.info(s"$itemsInBasket")
 
     case CountRecoveredEvents(_) => sender() ! RecoveredEventsCount(nrOfEventsRecovered)
 

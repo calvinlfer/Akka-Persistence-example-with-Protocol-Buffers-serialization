@@ -16,6 +16,7 @@ object BasketModels {
   // Commands that do not generate events
   case class GetItems(shopperId: Long) extends Command
   case class CountRecoveredEvents(shopperId: Long) extends Command
+  case class PrintItems(shopperId: Long) extends Command
 
   // Events: I have done this action (not harmful)
   sealed trait Event extends Serializable
@@ -23,7 +24,8 @@ object BasketModels {
   case class ItemRemoved(productId: String) extends Event
   case class ItemUpdated(productId: String, amount: Int) extends Event
   case class Replaced(items: Items) extends Event
-  case object Cleared extends Event
+  // I would have used a case object but I need this for serialization to work
+  case class Cleared() extends Event
 
   // Responses for statistical information
   case class RecoveredEventsCount(count: Int)
