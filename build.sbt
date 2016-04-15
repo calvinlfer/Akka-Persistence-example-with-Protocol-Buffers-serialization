@@ -1,8 +1,8 @@
+import com.trueaccord.scalapb.{ScalaPbPlugin => PB}
+
 name := "akka-persistence"
-
 version := "1.0"
-
-scalaVersion := "2.11.7"
+scalaVersion := "2.11.8"
 
 // Disable parallel execution of tests
 parallelExecution in Test := false
@@ -11,7 +11,7 @@ parallelExecution in Test := false
 fork := true
 
 libraryDependencies ++= {
-  val akkaVersion       = "2.4.1"
+  val akkaVersion       = "2.4.3"
   val sprayVersion      = "1.3.3"
   Seq(
     // Akka
@@ -29,8 +29,14 @@ libraryDependencies ++= {
     "io.spray"                    %%  "spray-json"     % "1.3.2",
 
     // Commons IO is needed for cleaning up data when testing persistent actors
-    "commons-io"                  % "commons-io"       % "2.4",
+    "commons-io"                  %  "commons-io"       % "2.4",
     "ch.qos.logback"              %  "logback-classic"  % "1.1.3",
     "org.scalatest"               %% "scalatest"        % "2.2.6"       % "test"
   )
 }
+
+PB.protobufSettings
+PB.runProtoc in PB.protobufConfig := {
+  args => com.github.os72.protocjar.Protoc.runProtoc("-v300" +: args.toArray)
+}
+version in PB.protobufConfig := "3.0.0-beta-2"

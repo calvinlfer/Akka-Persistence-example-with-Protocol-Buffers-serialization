@@ -1,0 +1,30 @@
+// Event model
+message Added {
+    required double value = 1;
+}
+
+message Reset {}
+
+message Subtracted {
+    required double value = 1;
+}
+
+message Divided {
+    required double value = 1;
+}
+
+message Multiplied {
+    required double value = 1;
+}
+
+
+message Models {
+    // used to create a sealed trait with the following commands extending it
+    oneof command {
+        Added added = 1;
+        Reset reset = 2;
+        Subtracted subtracted = 3;
+        Divided divided = 4;
+        Multiplied multipled = 5;
+    }
+}
