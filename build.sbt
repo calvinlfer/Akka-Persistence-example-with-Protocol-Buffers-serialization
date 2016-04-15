@@ -11,8 +11,7 @@ parallelExecution in Test := false
 fork := true
 
 libraryDependencies ++= {
-  val akkaVersion       = "2.4.3"
-  val sprayVersion      = "1.3.3"
+  val akkaVersion       = "2.4.1"
   Seq(
     // Akka
     "com.typesafe.akka"           %% "akka-actor"       % akkaVersion,
@@ -25,13 +24,11 @@ libraryDependencies ++= {
     "org.iq80.leveldb"            % "leveldb"          % "0.7",
     "org.fusesource.leveldbjni"   % "leveldbjni-all"   % "1.8",
 
-    // Spray JSON for Serialization
-    "io.spray"                    %%  "spray-json"     % "1.3.2",
-
     // Commons IO is needed for cleaning up data when testing persistent actors
     "commons-io"                  %  "commons-io"       % "2.4",
     "ch.qos.logback"              %  "logback-classic"  % "1.1.3",
-    "org.scalatest"               %% "scalatest"        % "2.2.6"       % "test"
+    "org.scalatest"               %% "scalatest"        % "2.2.6"       % "test",
+    "com.trueaccord.scalapb"      %% "scalapb-runtime"  % "0.5.25"
   )
 }
 

@@ -1,0 +1,21 @@
+syntax = "proto2";
+
+package com.experiments.calculator;
+
+// a way to get generated code to have a
+// sealed trait and classes extending it
+message CalculatorModel {
+    // the sealed trait
+    oneof Event {
+        // a case class that encapsulates a double
+        double Added = 1;
+        // other similar case classes
+        double Subtracted = 2;
+        double Multiplied = 3;
+        double Divided = 4;
+    }
+}
+
+// note that models comes from the name of this proto file
+// creates com.experiments.calculator.models.CalculatorModel.Event
+// check the target folder to see the code
