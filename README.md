@@ -13,6 +13,8 @@ Unfortunately, you cannot compile through IntelliJ so `sbt compile` will have to
 
 The `Main` application fires events at the `Calculator` actor. Since `Calculator` actor is Persistent, it makes use of
 the Serializer (set up in `application.conf`) when reading and persistent events to/from the event journal.
+
+We also have a [test](https://github.com/referentiallytransparent/Akka-Persistence-example-with-Protocol-Buffers-serialization/blob/master/src/test/scala/com/experiments/calculator/PersistentCalculatorSpec.scala) that exercises the Persistent `Calculator` Actor by sending it events, killing it and making sure it uses Event Sourcing to bring the `Calculator` up to the current state. You can use `sbt test` to run the test.
  
  If you are using IntelliJ and want syntax highlighting, then make sure your directory setup looks like this:
  ![image](https://cloud.githubusercontent.com/assets/14280155/14578746/e1a8e258-035e-11e6-86af-5a74669930d5.png)
