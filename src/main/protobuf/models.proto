@@ -1,4 +1,6 @@
 syntax = "proto2";
+
+// This is available because of the PB.protobufConfig on scalapb-runtime in build.sbt
 import "scalapb/scalapb.proto";
 
 package com.experiments.calculator;

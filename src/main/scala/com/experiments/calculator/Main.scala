@@ -19,7 +19,7 @@ object Main extends App {
   persistentCalculatorActor ! PrintResult
 
   /*
-  Simple example of using the built in serializer
+  // Simple example of using the built in serializer as Multiplied is a generated class
   println {
     "The result is going to be!!!! " +
     // deserialize
@@ -30,7 +30,8 @@ object Main extends App {
   }
   */
 
-  // Wait for 1 second before terminating
-  Thread sleep 1000
+  // Wait for 2 seconds before terminating
+  // Just an example, you wouldn't do this normally
+  Thread sleep 2000
   system terminate
 }
