@@ -1,4 +1,4 @@
-# Akka Persistence example with Protobuf serialization
+# Akka Persistence example with Protocol Buffers serialization
 
 This example uses [ScalaPB](https://trueaccord.github.io/ScalaPB/) in order to obtain case class support for Scala when
 generating code from `*.proto` files. This project also makes use of [protoc-jar](https://github.com/os72/protoc-jar) in
