@@ -18,3 +18,8 @@ We also have a [test](https://github.com/referentiallytransparent/Akka-Persisten
  
  If you are using IntelliJ and want syntax highlighting, then make sure your directory setup looks like this:
  ![image](https://cloud.githubusercontent.com/assets/14280155/14578746/e1a8e258-035e-11e6-86af-5a74669930d5.png)
+
+### External Libraries ###
+- [ScalaPB](https://trueaccord.github.io/ScalaPB/) is used to generate `Scala case classes` from `proto` files. These case classes have the ability to convert to and from binary
+- [Protoc](https://github.com/os72/protoc-jar) is used to remove the dependency of making sure the user has the Protocol Buffers compiler
+- [Akka](http://akka.io/) for its actor framework, persistence module and test kit
