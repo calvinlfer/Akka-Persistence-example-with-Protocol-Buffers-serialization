@@ -18,6 +18,18 @@ object Main extends App {
   persistentCalculatorActor ! Multiply(2)
   persistentCalculatorActor ! PrintResult
 
+  /*
+  Simple example of using the built in serializer
+  println {
+    "The result is going to be!!!! " +
+    // deserialize
+    Multiplied.parseFrom {
+      // serialize
+      Multiplied(1).toByteArray
+    }
+  }
+  */
+
   // Wait for 1 second before terminating
   Thread sleep 1000
   system terminate

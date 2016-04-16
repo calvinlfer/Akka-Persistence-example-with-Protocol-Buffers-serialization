@@ -1,7 +1,7 @@
 package com.experiments.calculator
 
 import akka.actor.ActorLogging
-import akka.persistence.{PersistentActor, RecoveryCompleted}
+import akka.persistence.{PersistentActor, RecoveryCompleted, SnapshotOffer}
 import com.experiments.calculator.models.Models._
 import com.experiments.calculator.models._
 
@@ -33,6 +33,10 @@ class Calculator extends PersistentActor with ActorLogging {
   override def receiveRecover: Receive = {
     // comes from the event database journal
     case event: Event => updateState(event)
+
+    // comes from the snapshot journal
+    case SnapshotOffer(metadata, resetEvent: Reset) => updateState(resetEvent)
+
     // this message is sent once recovery has completed
     case RecoveryCompleted => log.info(s"Recovery has completed for $persistenceId")
   }
@@ -41,26 +45,30 @@ class Calculator extends PersistentActor with ActorLogging {
   override def receiveCommand: Receive = {
     // Add this number to the result
     case Add(value) =>
-          // Convert Command to Event
-          // We generate an Added Event (as in `I have added this`)
-          val event = Added(value)
-          // Persist the event to the database and then call update state with the persisted event
-          persist(event)(updateState)
+      // Convert Command to Event
+      // We generate an Added Event (as in `I have added this`)
+      val event = Added(value)
+      // Persist the event to the database and then call update state with the persisted event
+      persist(event)(updateState)
 
-        case Subtract(value) => persist(Subtracted(value))(updateState)
+    case Subtract(value) => persist(Subtracted(value))(updateState)
 
-        // We see validation in the case of division
-        case Divide(value) =>
-          if (value > 0) persist(Divided(value))(updateState)
-          else log.error("Cannot divide by 0, Ignoring command")
+    // We see validation in the case of division
+    case Divide(value) =>
+      if (value > 0) persist(Divided(value))(updateState)
+      else log.error("Cannot divide by 0, Ignoring command")
 
-        case Multiply(value) => persist(Multiplied(value))(updateState)
+    case Multiply(value) => persist(Multiplied(value))(updateState)
 
-        case PrintResult => println(s"the result is: ${state.result}")
+    case PrintResult => println(s"the result is: ${state.result}")
 
-        case GetResult => sender() ! state.result
+    case GetResult => sender() ! state.result
 
-        case Clear => persist(Reset())(updateState)
-    case _ => println("Hello")
+    case Clear =>
+      persist(Reset())(updateState)
+      // tell the snapshot database to persist a Reset event, we would usually tell it to persist our internal state
+      // but I'm lazy and I don't want to make our internal state (CalculationResult) a part of the proto because then
+      // I'd have to serialize that
+      saveSnapshot(Reset())
   }
 }
