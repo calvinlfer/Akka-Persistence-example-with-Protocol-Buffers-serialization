@@ -3,7 +3,7 @@ package com.experiments.calculator
 import akka.actor.ActorLogging
 import akka.persistence.{PersistentActor, RecoveryCompleted, SnapshotOffer}
 import com.experiments.calculator.models.Models._
-import com.experiments.calculator.models._
+
 
 /**
   * The persistent event-sourced calculator actor
@@ -21,8 +21,8 @@ class Calculator extends PersistentActor with ActorLogging {
   // General updateState method for re-use
   // Used by both receiveRecover and receiveCommand
   // This updates the internal state using an event
-  val updateState: Event => Unit = {
-    case Reset() => state = state.reset
+  val updateState: Any => Unit = {
+    case Reset(_) => state = state.reset
     case Added(value) => state = state.add(value)
     case Subtracted(value) => state = state.subtract(value)
     case Divided(value) => state = state.divide(value)
@@ -31,14 +31,14 @@ class Calculator extends PersistentActor with ActorLogging {
 
   // Events come here (recovery phase) from database (snapshot and event)
   override def receiveRecover: Receive = {
-    // comes from the event database journal
-    case event: Event => updateState(event)
-
     // comes from the snapshot journal
-    case SnapshotOffer(metadata, resetEvent: Reset) => updateState(resetEvent)
+    case SnapshotOffer(metadata, Reset(_)) => updateState(Reset(-1))
 
     // this message is sent once recovery has completed
     case RecoveryCompleted => log.info(s"Recovery has completed for $persistenceId")
+
+    // all other events come from the event database journal
+    case event: Any => updateState(event)
   }
 
   // Commands come here (active phase)
@@ -65,10 +65,10 @@ class Calculator extends PersistentActor with ActorLogging {
     case GetResult => sender() ! state.result
 
     case Clear =>
-      persist(Reset())(updateState)
+      persist(Reset(-1))(updateState)
       // tell the snapshot database to persist a Reset event, we would usually tell it to persist our internal state
       // but I'm lazy and I don't want to make our internal state (CalculationResult) a part of the proto because then
       // I'd have to serialize that
-      saveSnapshot(Reset())
+      saveSnapshot(Reset(-1))
   }
 }

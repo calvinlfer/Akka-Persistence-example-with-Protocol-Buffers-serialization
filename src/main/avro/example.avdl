@@ -1,0 +1,24 @@
+@namespace("com.experiments.calculator")
+protocol MyApplication {
+    record Added {
+        double value;
+    }
+
+    record Subtracted {
+        double value;
+    }
+
+    record Divided {
+        double value;
+    }
+
+    record Multiplied {
+        double value;
+    }
+
+    record Reset {
+        // I am forced to do this until case class generation is
+        // fixed to allow for empty messages
+        double ignored = -1.0;
+    }
+}

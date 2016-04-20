@@ -1,5 +1,3 @@
-import com.trueaccord.scalapb.{ScalaPbPlugin => PB}
-
 name := "akka-persistence"
 version := "1.0"
 scalaVersion := "2.11.8"
@@ -28,13 +26,11 @@ libraryDependencies ++= {
     "commons-io"                  %  "commons-io"       % "2.4",
     "ch.qos.logback"              %  "logback-classic"  % "1.1.3",
     "org.scalatest"               %% "scalatest"        % "2.2.6"       % "test",
-    // allows ScalaPB proto customizations (scalapb/scalapb.proto)
-    "com.trueaccord.scalapb"      %% "scalapb-runtime"  % "0.5.25"       % PB.protobufConfig
+
+    // Avro4S
+    "com.sksamuel.avro4s"         %% "avro4s-core"      % "1.3.3"
   )
 }
 
-PB.protobufSettings
-PB.runProtoc in PB.protobufConfig := {
-  args => com.github.os72.protocjar.Protoc.runProtoc("-v300" +: args.toArray)
-}
-version in PB.protobufConfig := "3.0.0-beta-2"
+// To get the 'generate' task for generating standard Scala Case Classes use:
+sbtavrohugger.SbtAvrohugger.avroSettings
