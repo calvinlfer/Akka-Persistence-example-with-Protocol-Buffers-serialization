@@ -1,9 +1,7 @@
-# Akka Persistence example with Protocol Buffers serialization
+# Akka Persistence example with Avro serialization
 
-This example uses [ScalaPB](https://trueaccord.github.io/ScalaPB/) in order to obtain case class support for Scala when
-generating code from `*.proto` files. This project also makes use of [protoc-jar](https://github.com/os72/protoc-jar) in
-order to keep a self-contained project without posing any requirements on the user of having the Protocol Buffer
-compiler on their system.
+This example uses AvroHugger and Avro4S in order to obtain case class support for Scala when
+generating code from Avro based files.
 
 Execute `sbt run` in order to run the `Main` application. The `Calculator` actor is used to persist events across runs
 using Event Sourcing. We define a custom serializer that makes use of the generated class' (from proto)
@@ -13,6 +11,3 @@ Unfortunately, you cannot compile through IntelliJ so `sbt compile` will have to
 
 The `Main` application fires events at the `Calculator` actor. Since `Calculator` actor is Persistent, it makes use of
 the Serializer (set up in `application.conf`) when reading and persistent events to/from the event journal.
- 
- If you are using IntelliJ and want syntax highlighting, then make sure your directory setup looks like this:
- ![image](https://cloud.githubusercontent.com/assets/14280155/14578746/e1a8e258-035e-11e6-86af-5a74669930d5.png)
