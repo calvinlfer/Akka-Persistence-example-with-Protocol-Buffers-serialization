@@ -1,5 +1,9 @@
 # Akka Persistence example with Protocol Buffers serialization
 
+### Build Status
+[![Build Status](https://travis-ci.org/referentiallytransparent/Akka-Persistence-example-with-Protocol-Buffers-serialization.svg?branch=master)](https://travis-ci.org/referentiallytransparent/Akka-Persistence-example-with-Protocol-Buffers-serialization)
+
+### Overview 
 This example uses [ScalaPB](https://trueaccord.github.io/ScalaPB/) in order to obtain case class support for Scala when
 generating code from `*.proto` files. This project also makes use of [protoc-jar](https://github.com/os72/protoc-jar) in
 order to keep a self-contained project without posing any requirements on the user of having the Protocol Buffer
