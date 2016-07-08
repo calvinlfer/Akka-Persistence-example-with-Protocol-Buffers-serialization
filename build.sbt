@@ -11,7 +11,7 @@ parallelExecution in Test := false
 fork := true
 
 libraryDependencies ++= {
-  val akkaVersion       = "2.4.4"
+  val akkaVersion       = "2.4.7"
   Seq(
     // Akka
     "com.typesafe.akka"           %% "akka-actor"       % akkaVersion,
@@ -29,7 +29,7 @@ libraryDependencies ++= {
     "ch.qos.logback"              %  "logback-classic"  % "1.1.3",
     "org.scalatest"               %% "scalatest"        % "2.2.6"       % "test",
     // allows ScalaPB proto customizations (scalapb/scalapb.proto)
-    "com.trueaccord.scalapb"      %% "scalapb-runtime"  % "0.5.25"       % PB.protobufConfig
+    "com.trueaccord.scalapb"      %% "scalapb-runtime"  % "0.5.32"       % PB.protobufConfig
   )
 }
 
