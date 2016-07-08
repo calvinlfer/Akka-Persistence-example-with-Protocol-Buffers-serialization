@@ -1,7 +1,7 @@
 # Akka Persistence example with Protocol Buffers serialization
 
 ### Build Status
-[![Build Status](https://travis-ci.org/referentiallytransparent/Akka-Persistence-example-with-Protocol-Buffers-serialization.svg?branch=master)](https://travis-ci.org/referentiallytransparent/Akka-Persistence-example-with-Protocol-Buffers-serialization)
+[![Build Status](https://travis-ci.org/calvinlfer/play-framework-validation-example.svg?branch=master)](https://travis-ci.org/calvinlfer/play-framework-validation-example)
 
 ### Overview 
 This example uses [ScalaPB](https://trueaccord.github.io/ScalaPB/) in order to obtain case class support for Scala when

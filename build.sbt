@@ -28,6 +28,7 @@ libraryDependencies ++= {
     "commons-io"                  %  "commons-io"       % "2.4",
     "ch.qos.logback"              %  "logback-classic"  % "1.1.3",
     "org.scalatest"               %% "scalatest"        % "2.2.6"       % "test",
+
     // allows ScalaPB proto customizations (scalapb/scalapb.proto)
     "com.trueaccord.scalapb"      %% "scalapb-runtime"  % "0.5.32"       % PB.protobufConfig
   )
