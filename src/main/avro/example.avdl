@@ -17,8 +17,5 @@ protocol MyApplication {
     }
 
     record Reset {
-        // I am forced to do this until case class generation is
-        // fixed to allow for empty messages
-        double ignored = -1.0;
     }
 }

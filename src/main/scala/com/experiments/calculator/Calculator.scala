@@ -22,7 +22,7 @@ class Calculator extends PersistentActor with ActorLogging {
   // Used by both receiveRecover and receiveCommand
   // This updates the internal state using an event
   val updateState: Any => Unit = {
-    case Reset(_) => state = state.reset
+    case Reset() => state = state.reset
     case Added(value) => state = state.add(value)
     case Subtracted(value) => state = state.subtract(value)
     case Divided(value) => state = state.divide(value)
@@ -32,7 +32,7 @@ class Calculator extends PersistentActor with ActorLogging {
   // Events come here (recovery phase) from database (snapshot and event)
   override def receiveRecover: Receive = {
     // comes from the snapshot journal
-    case SnapshotOffer(metadata, Reset(_)) => updateState(Reset(-1))
+    case SnapshotOffer(metadata, Reset()) => updateState(Reset())
 
     // this message is sent once recovery has completed
     case RecoveryCompleted => log.info(s"Recovery has completed for $persistenceId")
@@ -65,10 +65,10 @@ class Calculator extends PersistentActor with ActorLogging {
     case GetResult => sender() ! state.result
 
     case Clear =>
-      persist(Reset(-1))(updateState)
+      persist(Reset())(updateState)
       // tell the snapshot database to persist a Reset event, we would usually tell it to persist our internal state
       // but I'm lazy and I don't want to make our internal state (CalculationResult) a part of the proto because then
       // I'd have to serialize that
-      saveSnapshot(Reset(-1))
+      saveSnapshot(Reset())
   }
 }

@@ -9,7 +9,7 @@ parallelExecution in Test := false
 fork := true
 
 libraryDependencies ++= {
-  val akkaVersion       = "2.4.4"
+  val akkaVersion       = "2.4.8"
   Seq(
     // Akka
     "com.typesafe.akka"           %% "akka-actor"       % akkaVersion,
@@ -27,8 +27,8 @@ libraryDependencies ++= {
     "ch.qos.logback"              %  "logback-classic"  % "1.1.3",
     "org.scalatest"               %% "scalatest"        % "2.2.6"       % "test",
 
-    // Avro4S
-    "com.sksamuel.avro4s"         %% "avro4s-core"      % "1.3.3"
+    // Avro4S to convert to and from Avro
+    "com.sksamuel.avro4s"         %% "avro4s-core"      % "1.5.1"
   )
 }
 
