@@ -27,3 +27,5 @@ We also have a [test](https://github.com/referentiallytransparent/Akka-Persisten
 - [ScalaPB](https://trueaccord.github.io/ScalaPB/) is used to generate `Scala case classes` from `proto` files. These case classes have the ability to convert to and from binary
 - [Protoc](https://github.com/os72/protoc-jar) is used to remove the dependency of making sure the user has the Protocol Buffers compiler
 - [Akka](http://akka.io/) for its actor framework, persistence module and test kit
+
+Warning: Make sure you have Python 2.7 installed (accessible via python) otherwise the protocol buffers compiler will give you errors and will not compile your project
