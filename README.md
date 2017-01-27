@@ -5,15 +5,11 @@
 
 ### Overview 
 This example uses [ScalaPB](https://trueaccord.github.io/ScalaPB/) in order to obtain case class support for Scala when
-generating code from `*.proto` files. This project also makes use of [protoc-jar](https://github.com/os72/protoc-jar) in
-order to keep a self-contained project without posing any requirements on the user of having the Protocol Buffer
-compiler on their system.
+generating code from `*.proto` files. ScalaPB uses the `protoc-jar` internally to compile your protocol buffer files.
 
 Execute `sbt run` in order to run the `Main` application. The `Calculator` actor is used to persist events across runs
 using Event Sourcing. We define a custom serializer that makes use of the generated class' (from proto)
 serialization mechanisms to easily serialize and deserialize events.
-
-Unfortunately, you cannot compile through IntelliJ so `sbt compile` will have to do.
 
 The `Main` application fires events at the `Calculator` actor. Since `Calculator` actor is Persistent, it makes use of
 the Serializer (set up in `application.conf`) when reading and persistent events to/from the event journal.
@@ -25,7 +21,6 @@ We also have a [test](https://github.com/referentiallytransparent/Akka-Persisten
 
 ### External Libraries ###
 - [ScalaPB](https://trueaccord.github.io/ScalaPB/) is used to generate `Scala case classes` from `proto` files. These case classes have the ability to convert to and from binary
-- [Protoc](https://github.com/os72/protoc-jar) is used to remove the dependency of making sure the user has the Protocol Buffers compiler
 - [Akka](http://akka.io/) for its actor framework, persistence module and test kit
 
-Warning: Make sure you have Python 2.7 installed (accessible via python) otherwise the protocol buffers compiler will give you errors and will not compile your project
+**Warning: Make sure you have Python 2.7 installed (accessible via `python`)** otherwise the protocol buffers compiler will give you errors and will not compile your project
