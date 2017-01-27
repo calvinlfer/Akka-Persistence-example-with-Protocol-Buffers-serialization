@@ -1,10 +1,9 @@
 logLevel := Level.Warn
 
 // Informative Scala compiler errors
-addSbtPlugin("com.softwaremill.clippy" % "plugin-sbt" % "0.3.0")
+addSbtPlugin("com.softwaremill.clippy" % "plugin-sbt" % "0.4.1")
 
 // Scala Protocol Buffers Compiler
-addSbtPlugin("com.trueaccord.scalapb" % "sbt-scalapb" % "0.5.34")
+addSbtPlugin("com.thesamet" % "sbt-protoc" % "0.99.3")
 
-// Protoc-jar so we don't need the Protoc compiler
-libraryDependencies += "com.github.os72" % "protoc-jar" % "3.0.0-b3"
+libraryDependencies += "com.trueaccord.scalapb" %% "compilerplugin" % "0.5.47"
