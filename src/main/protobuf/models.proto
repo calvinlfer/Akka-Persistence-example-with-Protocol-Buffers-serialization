@@ -1,28 +1,29 @@
-syntax = "proto2";
+syntax = "proto3";
 
-// This is available because of the PB.protobufConfig on scalapb-runtime in build.sbt
+// Brought in from scalapb-runtime
 import "scalapb/scalapb.proto";
+import "google/protobuf/wrappers.proto";
 
 package com.experiments.calculator;
 
 message Added {
     option (scalapb.message).extends = "com.experiments.calculator.models.Models.Event";
-    required double value = 1;
+    double value = 1;
 }
 
 message Subtracted {
     option (scalapb.message).extends = "com.experiments.calculator.models.Models.Event";
-    required double value = 1;
+    double value = 1;
 }
 
 message Multiplied {
     option (scalapb.message).extends = "com.experiments.calculator.models.Models.Event";
-    required double value = 1;
+    double value = 1;
 }
 
 message Divided {
     option (scalapb.message).extends = "com.experiments.calculator.models.Models.Event";
-    required double value = 1;
+    double value = 1;
 }
 
 message Reset {
